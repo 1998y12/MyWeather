@@ -1,5 +1,6 @@
 package com.example.apple.myweather;
 
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.Image;
@@ -53,6 +54,9 @@ public class WeatherActivity extends AppCompatActivity {
     public DrawerLayout drawerLayout;
     private Button navButton;
 
+    private NeworkChangeReceiver networkChangeReceiver;
+    private IntentFilter intentFilter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +86,11 @@ public class WeatherActivity extends AppCompatActivity {
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         navButton = (Button)findViewById(R.id.nav_button);
+
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        networkChangeReceiver = new NeworkChangeReceiver();
+        registerReceiver(networkChangeReceiver,intentFilter);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather",null);
@@ -130,7 +139,10 @@ public class WeatherActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(WeatherActivity.this,"获取天气信息失败！",Toast.LENGTH_SHORT).show();
+                        if(NeworkChangeReceiver.status == 0)
+                            Toast.makeText(WeatherActivity.this,"获取天气信息失败！请检查您的网络设置！",Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(WeatherActivity.this,"获取天气信息失败！",Toast.LENGTH_SHORT).show();
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 });
@@ -150,7 +162,10 @@ public class WeatherActivity extends AppCompatActivity {
                             mWeatherId = weather.basic.weatherId;
                             showWeatherInfo(weather);
                         }else{
-                            Toast.makeText(WeatherActivity.this,"获取天气信息失败！",Toast.LENGTH_SHORT).show();
+                            if(NeworkChangeReceiver.status == 0)
+                                Toast.makeText(WeatherActivity.this,"获取天气信息失败！请检查您的网络设置！",Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(WeatherActivity.this,"获取天气信息失败！",Toast.LENGTH_SHORT).show();
                         }
                         swipeRefreshLayout.setRefreshing(false);
                     }
@@ -228,5 +243,11 @@ public class WeatherActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(networkChangeReceiver);
     }
 }

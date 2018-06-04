@@ -3,7 +3,7 @@
     package="com.example.apple.myweather">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <application
         android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
