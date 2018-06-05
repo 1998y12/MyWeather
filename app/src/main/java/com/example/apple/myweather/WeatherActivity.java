@@ -1,5 +1,6 @@
 package com.example.apple.myweather;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.apple.myweather.gson.Forecast;
 import com.example.apple.myweather.gson.Weather;
+import com.example.apple.myweather.service.AutoUpdateService;
+import com.example.apple.myweather.service.ForegroundService;
 import com.example.apple.myweather.util.HttpUtil;
 import com.example.apple.myweather.util.Utility;
 
@@ -57,6 +60,9 @@ public class WeatherActivity extends AppCompatActivity {
     private NeworkChangeReceiver networkChangeReceiver;
     private IntentFilter intentFilter;
 
+    private TextView notificationNowDegree;
+    private TextView notificationWeatherInfo;
+    private TextView notificationWeatherDegree;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +92,11 @@ public class WeatherActivity extends AppCompatActivity {
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         navButton = (Button)findViewById(R.id.nav_button);
+
+        notificationNowDegree = (TextView)findViewById(R.id.notification_nowdegree);
+        notificationWeatherDegree = (TextView)findViewById(R.id.notification_weatherdegree);
+        notificationWeatherInfo = (TextView)findViewById(R.id.notification_weatherinfo);
+
 
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
@@ -215,7 +226,17 @@ public class WeatherActivity extends AppCompatActivity {
         carWashText.setText(carWash);
         sportText.setText(sport);
         weatherLayout.setVisibility(View.VISIBLE);
+        startService(new Intent(this, ForegroundService.class));
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
 
+
+    }
+
+    @Override
+    protected void onPause() {
+
+        super.onPause();
     }
 
     /**
