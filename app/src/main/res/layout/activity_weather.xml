@@ -36,11 +36,14 @@
 
             <include layout="@layout/now"></include>
 
+
             <include layout="@layout/forecast"></include>
 
             <include layout="@layout/aqi"></include>
 
             <include layout="@layout/suggestion"></include>
+
+            <include layout="@layout/moreinfo"></include>
         </LinearLayout>
 
     </ScrollView>

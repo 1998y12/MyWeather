@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="130dp"
+    android:layout_height="140dp"
     android:background="#8000">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3">
+        android:layout_weight="30">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="4">
+                android:layout_weight="3">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/notification_nowdegree"
                         android:textSize="40sp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="15dp"
                         android:textColor="#fff"/>
 
                     <TextView
@@ -38,7 +38,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/notification_weatherinfo"
                         android:textSize="18sp"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="25dp"
                         android:textColor="#fff"/>
 
                 </LinearLayout>
@@ -52,14 +52,18 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="7dp"
-                    android:layout_marginLeft="5dp">
+                    android:layout_marginLeft="5dp"
+                    android:gravity="right"
+                    >
                          <ImageView
                               android:layout_width="match_parent"
                               android:layout_height="match_parent"
                              android:id="@+id/notification_weatherImg"
+                             android:layout_gravity="right"
+
                              />
                 </LinearLayout>
 
@@ -69,23 +73,29 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#fff"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="13">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
 
-            android:layout_marginLeft="50dp">
+            android:layout_marginLeft="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:id="@+id/notification_weatherdegree"/>
+                android:textSize="16sp"
+                android:id="@+id/notification_weatherdegree"
+                android:layout_gravity="center_vertical"/>
         </LinearLayout>
 
     </RelativeLayout>

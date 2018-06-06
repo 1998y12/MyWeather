@@ -8,33 +8,36 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:text="生活建议"
+        android:id="@+id/wind_info"
         android:textColor="#fff"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"
         android:textSize="20sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/comfort_text"
+        android:id="@+id/flhum_info"
         android:textColor="#fff"
-        android:textSize="15sp"
-        android:layout_margin="15dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/car_wash_text"
-        android:textColor="#fff"
-        android:textSize="15sp"
-        android:layout_margin="15dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sport_text"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="15dp"
-        android:textSize="15sp"
-        android:textColor="#fff"/>
+        android:textSize="20sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pcpnpres_info"
+        android:textColor="#fff"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/vis_info"
+        android:layout_margin="15dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#fff"
+        android:textSize="20sp"/>
 </LinearLayout>

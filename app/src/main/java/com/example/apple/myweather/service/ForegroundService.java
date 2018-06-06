@@ -7,17 +7,23 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
+import android.widget.ResourceCursorAdapter;
 
+import com.bumptech.glide.load.engine.Resource;
 import com.example.apple.myweather.R;
 import com.example.apple.myweather.WeatherActivity;
 import com.example.apple.myweather.gson.Weather;
 import com.example.apple.myweather.util.Utility;
+
+import static android.app.PendingIntent.getActivity;
+
 
 public class ForegroundService extends Service {
     public ForegroundService() {
@@ -52,16 +58,18 @@ public class ForegroundService extends Service {
             String weatherInfo = weather.now.more.info;
 
             Intent intent = new Intent(this, WeatherActivity.class);
-            PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
+            PendingIntent pi = getActivity(this, 0, intent, 0);
             RemoteViews remoteViews = new RemoteViews(this.getPackageName(),R.layout.notification);
             remoteViews.setTextViewText(R.id.notification_nowdegree,degree);
-            remoteViews.setTextViewText(R.id.notification_weatherdegree,minTmp + " — " + maxTmp);
+            remoteViews.setTextViewText(R.id.notification_weatherdegree,"今天："+"现在"+weatherInfo+"；"+"最低气温"+minTmp +"，"+ "最高气温" + maxTmp +"");
             remoteViews.setTextViewText(R.id.notification_weatherinfo,weatherInfo);
-            remoteViews.setImageViewResource(R.id.notification_weatherImg,R.drawable.sun);
 
+            Resources res = getResources();
+            int i = res.getIdentifier("asd"+weather.now.more.infocode,"drawable",getPackageName());
+
+            remoteViews.setImageViewResource(R.id.notification_weatherImg,i);
             Notification notification = new NotificationCompat.Builder(this)
 
-                    .setCustomBigContentView(remoteViews)
 //                    .setContentTitle(dateTime)
 //                    .setContentText(degree + "  " + weatherInfo   )
 //                    .setSubText(minTmp + " — " + maxTmp)
@@ -69,8 +77,8 @@ public class ForegroundService extends Service {
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                     .setContentIntent(pi)
+                    .setCustomBigContentView(remoteViews)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
-
                     .build();
             startForeground(1, notification);
         }

@@ -18,5 +18,18 @@ public class Now {
 
         @SerializedName("txt")
         public String info;
+
+        @SerializedName("code")
+        public String infocode;
     }
+
+    public String fl;
+    public String hum;
+    public String pcpn;
+    public String pres;
+    public String vis;
+    public String wind_deg;
+    public String wind_dir;
+    public String wind_sc;
+    public String wind_spd;
 }

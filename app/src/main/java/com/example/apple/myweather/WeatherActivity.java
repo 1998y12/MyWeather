@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.apple.myweather.gson.Forecast;
+import com.example.apple.myweather.gson.Hour;
 import com.example.apple.myweather.gson.Weather;
 import com.example.apple.myweather.service.AutoUpdateService;
 import com.example.apple.myweather.service.ForegroundService;
@@ -63,6 +64,12 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView notificationNowDegree;
     private TextView notificationWeatherInfo;
     private TextView notificationWeatherDegree;
+
+    private TextView flhum_info;
+    private TextView pcpnpres_info;
+    private TextView wind_info;
+    private TextView vis_info;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +104,12 @@ public class WeatherActivity extends AppCompatActivity {
         notificationWeatherDegree = (TextView)findViewById(R.id.notification_weatherdegree);
         notificationWeatherInfo = (TextView)findViewById(R.id.notification_weatherinfo);
 
+        flhum_info = (TextView)findViewById(R.id.flhum_info);
+        pcpnpres_info = (TextView)findViewById(R.id.pcpnpres_info);
+        vis_info = (TextView)findViewById(R.id.vis_info);
+        wind_info = (TextView)findViewById(R.id.wind_info);
 
+        //监听网络状态的广播
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         networkChangeReceiver = new NeworkChangeReceiver();
@@ -118,6 +130,7 @@ public class WeatherActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                stopService(new Intent(WeatherActivity.this, ForegroundService.class));
                 requestWeather(mWeatherId);
             }
         });
@@ -192,7 +205,7 @@ public class WeatherActivity extends AppCompatActivity {
      */
     private void showWeatherInfo(Weather weather){
         String cityName = weather.basic.cityName;
-        String updateTime = weather.basic.update.updateTime.split(" ")[1];
+        String updateTime = "最后更新于："+weather.basic.update.updateTime.split(" ")[1];
         String degree = weather.now.temperature + "℃";
         String weatherInfo = weather.now.more.info;
         titleCity.setText(cityName);
@@ -200,6 +213,8 @@ public class WeatherActivity extends AppCompatActivity {
         degreeText.setText(degree);
         weatherInfoText.setText(weatherInfo);
         forecastLayout.removeAllViews();
+
+
         for(Forecast forecast : weather.forecastList){
             View view = LayoutInflater.from(this).inflate(R.layout.forecast_item,forecastLayout,false);
             TextView dateText = (TextView)view.findViewById(R.id.date_text);
@@ -225,6 +240,16 @@ public class WeatherActivity extends AppCompatActivity {
         comfortText.setText(comfort);
         carWashText.setText(carWash);
         sportText.setText(sport);
+
+        String flhum = "体感温度：   " + weather.now.fl + "°" + "\n" + "湿度：  " + weather.now.hum + "%";
+        String pcpnpres = "降水量：   " + weather.now.pcpn + "厘米" + "\n" + "气压：  " + weather.now.pres + "百帕";
+        String wind = "风向：   " + weather.now.wind_dir + "" + "\n" + "风力：  " + weather.now.wind_sc + ""  + "\n" + "风速：  " + weather.now.wind_spd + "米/秒";
+        String vis = "能见度：  "+weather.now.vis + "公里";
+        flhum_info.setText(flhum);
+        pcpnpres_info.setText(pcpnpres);
+        wind_info.setText(wind);
+        vis_info.setText(vis);
+
         weatherLayout.setVisibility(View.VISIBLE);
         startService(new Intent(this, ForegroundService.class));
         Intent intent = new Intent(this, AutoUpdateService.class);
