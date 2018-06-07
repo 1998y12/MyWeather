@@ -35,7 +35,19 @@
             android:name=".DataProvider.MyContentProvider"
             android:authorities="com.example.apple.myweather.provider"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="true" />
+
+        <service
+            android:name=".service.AutoAlarmService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".broadcast.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".SettingActivity"></activity>
     </application>
 
 </manifest>

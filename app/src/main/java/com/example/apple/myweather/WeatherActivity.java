@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,9 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.apple.myweather.broadcast.NeworkChangeReceiver;
 import com.example.apple.myweather.gson.Forecast;
-import com.example.apple.myweather.gson.Hour;
 import com.example.apple.myweather.gson.Weather;
+import com.example.apple.myweather.service.AutoAlarmService;
 import com.example.apple.myweather.service.AutoUpdateService;
 import com.example.apple.myweather.service.ForegroundService;
 import com.example.apple.myweather.util.HttpUtil;
@@ -70,6 +72,8 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView wind_info;
     private TextView vis_info;
 
+    private TextView qltyText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +113,8 @@ public class WeatherActivity extends AppCompatActivity {
         vis_info = (TextView)findViewById(R.id.vis_info);
         wind_info = (TextView)findViewById(R.id.wind_info);
 
+        qltyText = (TextView)findViewById(R.id.qlty);
+
         //监听网络状态的广播
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
@@ -147,6 +153,8 @@ public class WeatherActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+
+        startService(new Intent(this, AutoAlarmService.class));
     }
 
     /**
@@ -205,7 +213,7 @@ public class WeatherActivity extends AppCompatActivity {
      */
     private void showWeatherInfo(Weather weather){
         String cityName = weather.basic.cityName;
-        String updateTime = "最后更新于："+weather.basic.update.updateTime.split(" ")[1];
+        String updateTime = "最后更新："+weather.basic.update.updateTime.split(" ")[1];
         String degree = weather.now.temperature + "℃";
         String weatherInfo = weather.now.more.info;
         titleCity.setText(cityName);
@@ -233,6 +241,7 @@ public class WeatherActivity extends AppCompatActivity {
         if(weather.aqi!=null){
             aqiText.setText(weather.aqi.city.aqi);
             pm25Text.setText(weather.aqi.city.pm25);
+            qltyText.setText(weather.aqi.city.qlty);
         }
         String comfort = "舒适度："+ weather.suggestion.comfort.info;
         String carWash = "洗车指数："+ weather.suggestion.carWash.info;
@@ -295,5 +304,29 @@ public class WeatherActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(networkChangeReceiver);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.add_item:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT,"This is my text");
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent,"Share to ..."));
+                break;
+            case R.id.remove_item:
+                startActivity(new Intent(this,SettingActivity.class));
+            default:
+                break;
+        }
+        return true;
     }
 }

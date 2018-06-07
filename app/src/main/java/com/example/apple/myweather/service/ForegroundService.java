@@ -61,13 +61,16 @@ public class ForegroundService extends Service {
             PendingIntent pi = getActivity(this, 0, intent, 0);
             RemoteViews remoteViews = new RemoteViews(this.getPackageName(),R.layout.notification);
             remoteViews.setTextViewText(R.id.notification_nowdegree,degree);
-            remoteViews.setTextViewText(R.id.notification_weatherdegree,"今天："+"现在"+weatherInfo+"；"+"最低气温"+minTmp +"，"+ "最高气温" + maxTmp +"");
+            remoteViews.setTextViewText(R.id.notification_weatherdegree,"今天："+"现在"+weatherInfo+"；"+"最低气温"+minTmp +"，"+ "最高气温" + maxTmp +"；空气质量"+weather.aqi.city.qlty);
             remoteViews.setTextViewText(R.id.notification_weatherinfo,weatherInfo);
 
             Resources res = getResources();
             int i = res.getIdentifier("asd"+weather.now.more.infocode,"drawable",getPackageName());
 
             remoteViews.setImageViewResource(R.id.notification_weatherImg,i);
+
+            RemoteViews remoteViews1 = new RemoteViews(this.getPackageName(),R.layout.notification_normal);
+            remoteViews1.setTextViewText(R.id.notification_normal_text,"今天："+"现在"+weatherInfo+"；"+"最低气温"+minTmp +"，"+ "最高气温" + maxTmp +"");
             Notification notification = new NotificationCompat.Builder(this)
 
 //                    .setContentTitle(dateTime)
@@ -77,6 +80,7 @@ public class ForegroundService extends Service {
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                     .setContentIntent(pi)
+                    .setContent(remoteViews1)
                     .setCustomBigContentView(remoteViews)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     .build();

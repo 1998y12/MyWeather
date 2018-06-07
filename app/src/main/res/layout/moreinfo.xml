@@ -11,8 +11,8 @@
         android:id="@+id/wind_info"
         android:textColor="#fff"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="15dp"
-        android:textSize="20sp"/>
+        android:layout_margin="10dp"
+        android:textSize="18sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,8 +20,8 @@
         android:id="@+id/flhum_info"
         android:textColor="#fff"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="15dp"
-        android:textSize="20sp"/>
+        android:layout_margin="10dp"
+        android:textSize="18sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,15 +29,15 @@
         android:id="@+id/pcpnpres_info"
         android:textColor="#fff"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="15dp"
-        android:textSize="20sp"/>
+        android:layout_margin="10dp"
+        android:textSize="18sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/vis_info"
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
         android:layout_gravity="center_horizontal"
         android:textColor="#fff"
-        android:textSize="20sp"/>
+        android:textSize="18sp"/>
 </LinearLayout>
