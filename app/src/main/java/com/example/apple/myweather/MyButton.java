@@ -16,6 +16,7 @@ import android.view.View;
  */
 
 public class MyButton extends View {
+
     //左圆半径
     private int center;
     //矩形x坐标
@@ -64,23 +65,24 @@ public class MyButton extends View {
         void onClick(boolean isRight);
     }
 
-
-    private void init() {
-        //初始化一些数据
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        smallPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(Color.GREEN);
-        smallPaint.setColor(Color.WHITE);
-    }
-
     //往左
     public static final int TO_LEFT = 11;
     //往右
     public static final int TO_RIGHT = 22;
 
-    private boolean isRight = true;
+    public boolean isRight = true;
 
     private boolean isAnimate = false;
+    private void init() {
+        //初始化一些数据
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        smallPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        isRight = true;
+        paint.setColor(Color.GREEN);
+        smallPaint.setColor(Color.WHITE);
+    }
+
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -210,12 +212,12 @@ public class MyButton extends View {
     }
 
     //提供方法调用
-    private void goLeft() {
+    public void goLeft() {
         isRight = false;
         handler.sendEmptyMessageDelayed(TO_LEFT, 40);
     }
 
-    private void goRight() {
+    public void goRight() {
         isRight = true;
         handler.sendEmptyMessageDelayed(TO_RIGHT, 40);
     }

@@ -29,6 +29,7 @@ import com.example.apple.myweather.gson.Forecast;
 import com.example.apple.myweather.gson.Weather;
 import com.example.apple.myweather.service.AutoAlarmService;
 import com.example.apple.myweather.service.AutoUpdateService;
+import com.example.apple.myweather.service.BGMusicService;
 import com.example.apple.myweather.service.ForegroundService;
 import com.example.apple.myweather.util.HttpUtil;
 import com.example.apple.myweather.util.Utility;
@@ -137,6 +138,7 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 stopService(new Intent(WeatherActivity.this, ForegroundService.class));
+                stopService(new Intent(WeatherActivity.this,BGMusicService.class));
                 requestWeather(mWeatherId);
             }
         });
@@ -155,6 +157,8 @@ public class WeatherActivity extends AppCompatActivity {
         });
 
         startService(new Intent(this, AutoAlarmService.class));
+
+
     }
 
     /**
@@ -260,9 +264,14 @@ public class WeatherActivity extends AppCompatActivity {
         vis_info.setText(vis);
 
         weatherLayout.setVisibility(View.VISIBLE);
+
         startService(new Intent(this, ForegroundService.class));
+
         Intent intent = new Intent(this, AutoUpdateService.class);
         startService(intent);
+
+        startService(new Intent(this,BGMusicService.class));
+
 
 
     }
@@ -277,6 +286,7 @@ public class WeatherActivity extends AppCompatActivity {
      * 加载必应每日一图
      */
     private void loadBingPic(){
+
         String requestBingPic = "http://guolin.tech/api/bing_pic";
         HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
             @Override
@@ -323,10 +333,53 @@ public class WeatherActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(sendIntent,"Share to ..."));
                 break;
             case R.id.remove_item:
-                startActivity(new Intent(this,SettingActivity.class));
+                startActivityForResult(new Intent(this,SettingActivity.class),1);
             default:
                 break;
         }
         return true;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case 1:
+                if(resultCode == RESULT_OK){
+                    String updatebutton_data = data.getStringExtra("updatebutton_return");
+                    String alarmbutton_data = data.getStringExtra("alarmbutton_return");
+                    if(updatebutton_data != null) {
+                        if (updatebutton_data.equals("isRight")) {
+                            startService(new Intent(this, AutoUpdateService.class));
+                        } else if (updatebutton_data.equals("isLeft")) {
+                            stopService(new Intent(this, AutoUpdateService.class));
+                        }
+                    }
+                    if(alarmbutton_data != null) {
+                        if (alarmbutton_data.equals("isRight")) {
+                            startService(new Intent(this, AutoAlarmService.class));
+                        } else if (alarmbutton_data.equals("isLeft")) {
+                            stopService(new Intent(this, AutoAlarmService.class));
+
+                        }
+                    }
+
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopService(new Intent(this,BGMusicService.class));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startService(new Intent(this,BGMusicService.class));
+    }
+
 }

@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.example.apple.myweather.db.City;
 import com.example.apple.myweather.db.County;
 import com.example.apple.myweather.db.Province;
-import com.example.apple.myweather.gson.Weather;
+import com.example.apple.myweather.service.BGMusicService;
 import com.example.apple.myweather.service.ForegroundService;
 import com.example.apple.myweather.util.HttpUtil;
 import com.example.apple.myweather.util.Utility;
@@ -93,6 +93,7 @@ public class ChooseAreaFragment extends Fragment {
                         activity.drawerLayout.closeDrawers();
                         activity.swipeRefreshLayout.setRefreshing(true);
                         activity.stopService(new Intent(activity, ForegroundService.class));
+                        activity.stopService(new Intent(activity,BGMusicService.class));
                         activity.requestWeather(weatherId);
                     }
                 }

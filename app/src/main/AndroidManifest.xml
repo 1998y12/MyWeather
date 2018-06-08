@@ -47,7 +47,13 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".SettingActivity" />
+
+        <service
+            android:name=".service.BGMusicService"
+            android:enabled="true"
+            android:exported="true"
+            ></service>
     </application>
 
 </manifest>
