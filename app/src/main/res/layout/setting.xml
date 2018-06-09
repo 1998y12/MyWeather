@@ -18,7 +18,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textSize="17sp"
-            android:text="允许后台自动刷新天气"/>
+            android:text="后台自动刷新天气"/>
 
         <com.example.apple.myweather.MyButton
             android:id="@+id/switch_button_update"
@@ -51,10 +51,43 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:textSize="17sp"
-            android:text="允许发送通知"/>
+            android:text="发送通知"/>
 
         <com.example.apple.myweather.MyButton
             android:id="@+id/switch_button_autoalrm"
+            android:layout_width="55dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            ></com.example.apple.myweather.MyButton>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="10dp"
+        android:layout_height="1dp"
+        android:background="#fff"
+        android:layout_gravity="left"
+        android:gravity="left"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:orientation="horizontal"
+
+        android:background="#fff">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:textSize="17sp"
+            android:text="播放背景音乐"/>
+
+        <com.example.apple.myweather.MyButton
+            android:id="@+id/switch_button_bgm"
             android:layout_width="55dp"
             android:layout_height="33dp"
             android:layout_gravity="center_vertical"

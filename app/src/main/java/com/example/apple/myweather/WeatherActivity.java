@@ -42,6 +42,8 @@ import okhttp3.Response;
 
 public class WeatherActivity extends AppCompatActivity {
 
+    public static int bgmFlag = 1;
+
     private ScrollView weatherLayout;
     private TextView titleCity;
     private TextView titleUpdatedTime;
@@ -347,6 +349,7 @@ public class WeatherActivity extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     String updatebutton_data = data.getStringExtra("updatebutton_return");
                     String alarmbutton_data = data.getStringExtra("alarmbutton_return");
+                    String bgmbutton_data = data.getStringExtra("bgmbutton_return");
                     if(updatebutton_data != null) {
                         if (updatebutton_data.equals("isRight")) {
                             startService(new Intent(this, AutoUpdateService.class));
@@ -361,6 +364,15 @@ public class WeatherActivity extends AppCompatActivity {
                             stopService(new Intent(this, AutoAlarmService.class));
 
                         }
+                    }
+                    if(bgmbutton_data!=null){
+                        if(bgmbutton_data.equals("isRight")){
+                            startService(new Intent(this,BGMusicService.class));
+                        }else if(bgmbutton_data.equals("isLeft")){
+                            stopService(new Intent(this,BGMusicService.class));
+                            bgmFlag = 0;
+                        }
+
                     }
 
                 }
@@ -379,7 +391,8 @@ public class WeatherActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startService(new Intent(this,BGMusicService.class));
+        if(bgmFlag==1)
+            startService(new Intent(this,BGMusicService.class));
     }
 
 }

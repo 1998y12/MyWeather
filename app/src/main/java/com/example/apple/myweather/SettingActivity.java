@@ -17,23 +17,31 @@ public class SettingActivity extends AppCompatActivity {
     //0在右边，1在左边
     public static int flag = 0;
     public static int flag1 = 0;
+    public static int flag2 = 0;
 
     MyButton myButton_refresh;
     MyButton myButton_alarm;
+    MyButton myButton_bgm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         flag = PreferenceManager.getDefaultSharedPreferences(this).getInt("updatebutton",0);
         flag1  = PreferenceManager.getDefaultSharedPreferences(this).getInt("alarmbutton",0);
+        flag2 = PreferenceManager.getDefaultSharedPreferences(this).getInt("bgmbutton",0);
+
         setContentView(R.layout.setting);
         final Intent intent = new Intent();
         myButton_refresh = (MyButton)findViewById(R.id.switch_button_update);
         myButton_alarm = (MyButton)findViewById(R.id.switch_button_autoalrm);
+        myButton_bgm = (MyButton)findViewById(R.id.switch_button_bgm);
         if(flag == 1){
             myButton_refresh.goLeft();
         }
         if(flag1 == 1){
             myButton_alarm.goLeft();
+        }
+        if(flag2 == 1){
+            myButton_bgm.goLeft();
         }
 
         myButton_refresh.setOnMbClickListener(new MyButton.OnMClickListener() {
@@ -73,6 +81,26 @@ public class SettingActivity extends AppCompatActivity {
                     intent.putExtra("alarmbutton_return", "isLeft");
                     SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SettingActivity.this).edit();
                     editor.putInt("alarmbutton", 1);
+                    editor.apply();
+                }
+            }
+        });
+
+        myButton_bgm.setOnMbClickListener(new MyButton.OnMClickListener() {
+            @Override
+            public void onClick(boolean isRight) {
+                if(isRight){
+                    Toast.makeText(SettingActivity.this,"背景音乐已开启",Toast.LENGTH_SHORT).show();
+                    intent.putExtra("bgmbutton_return","isRight");
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SettingActivity.this).edit();
+                    editor.putInt("bgmbutton",0);
+                    editor.apply();
+                }
+                else{
+                    Toast.makeText(SettingActivity.this,"背景音乐已关闭",Toast.LENGTH_SHORT).show();
+                    intent.putExtra("bgmbutton_return","isLeft");
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SettingActivity.this).edit();
+                    editor.putInt("bgmbutton",1);
                     editor.apply();
                 }
             }
